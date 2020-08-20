@@ -32,7 +32,7 @@ namespace Etica.Repository
             _carParkContext = carParkContext;
         }
 
-        public async Task<RateEntity> GetApplicableRate(DateTime start, DateTime end)
+        public async Task<BaseRateEntity> GetApplicableRate(DateTime start, DateTime end)
         {
             var dailyRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => (weekDays.Contains(start.DayOfWeek) && r.RateDay == RateDay.Weekday && (TimeSpan.Compare(r.StartMin.TimeOfDay, start.TimeOfDay) <= 0 && TimeSpan.Compare(r.StartMax.TimeOfDay, start.TimeOfDay) >= 0) && (TimeSpan.Compare(r.EndMin.TimeOfDay, end.TimeOfDay) <= 0 && TimeSpan.Compare(r.EndMax.TimeOfDay, end.TimeOfDay) >= 0)));
 
@@ -40,6 +40,24 @@ namespace Etica.Repository
                 return dailyRate;
             
             var weekendRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => weekEnd.Contains(start.DayOfWeek) && r.RateDay == RateDay.Weekend && (TimeSpan.Compare(r.StartMin.TimeOfDay, start.TimeOfDay) < 0) && (TimeSpan.Compare(r.EndMax.TimeOfDay, end.TimeOfDay) < 0));
+
+            if (weekendRate == null)
+            {
+                var duration = (end - start).TotalHours;
+
+                var rate = await _carParkContext.HourlyRates.SingleOrDefaultAsync(r => duration >= r.DurationMin && duration < r.DurationMax);
+
+                if (rate.IsDaily)
+                {
+                    var durationInDays = Math.Ceiling((end - start).TotalDays);
+                    var amount = rate.Price * durationInDays;
+                    rate.Price = amount;
+
+                    return rate;
+                }
+
+                return rate;
+            }
 
             return weekendRate;
         }

@@ -7,6 +7,6 @@ namespace Etica.Repository
 {
     public interface ICarParkRepository
     {
-        Task<RateEntity> GetApplicableRate(DateTime start, DateTime end);
+        Task<BaseRateEntity> GetApplicableRate(DateTime start, DateTime end);
     }
 }

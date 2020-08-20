@@ -1,12 +1,13 @@
 ﻿using Etica.Repository.Entitites;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Etica.Repository
 {
     public class CarParkContext : DbContext
     {
         public DbSet<RateEntity> Rates { get; set; }
+
+        public DbSet<HourlyRateEntity> HourlyRates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,6 +18,7 @@ namespace Etica.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RateEntity>().ToTable("Rates");
+            modelBuilder.Entity<HourlyRateEntity>().ToTable("HourlyRates");
             modelBuilder.Entity<RateEntity>().Property(x => x.Id).ValueGeneratedOnAdd();
         }
     }

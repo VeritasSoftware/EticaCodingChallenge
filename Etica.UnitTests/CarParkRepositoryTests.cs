@@ -31,7 +31,8 @@ namespace Etica.UnitTests
                     StartMin = DateTime.ParseExact("06:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     StartMax = DateTime.ParseExact("09:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     EndMin = DateTime.ParseExact("03:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    EndMax = DateTime.ParseExact("11:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture)
+                    EndMax = DateTime.ParseExact("11:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    Price = 13
                 });
 
                 context.Rates.Add(new RateEntity
@@ -42,7 +43,8 @@ namespace Etica.UnitTests
                     StartMin = DateTime.ParseExact("06:00:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     StartMax = DateTime.ParseExact("11:59:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     EndMin = DateTime.ParseExact("03:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
-                    EndMax = DateTime.ParseExact("11:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1)
+                    EndMax = DateTime.ParseExact("11:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
+                    Price = 6.5
                 });
 
                 context.Rates.Add(new RateEntity
@@ -52,6 +54,43 @@ namespace Etica.UnitTests
                     RateDay = RateDay.Weekend,
                     StartMin = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     EndMax = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    Price = 10
+                });
+
+                context.HourlyRates.Add(new HourlyRateEntity
+                {
+                    Name = "Standard Rate",
+                    DurationMin = 0,
+                    DurationMax = 1,
+                    IsHourly = true,
+                    Price = 5
+                });
+
+                context.HourlyRates.Add(new HourlyRateEntity
+                {
+                    Name = "Standard Rate",
+                    DurationMin = 1,
+                    DurationMax = 2,
+                    IsHourly = true,
+                    Price = 10
+                });
+
+                context.HourlyRates.Add(new HourlyRateEntity
+                {
+                    Name = "Standard Rate",
+                    DurationMin = 2,
+                    DurationMax = 3,
+                    IsHourly = true,
+                    Price = 15
+                });
+
+                context.HourlyRates.Add(new HourlyRateEntity
+                {
+                    Name = "Standard Rate",
+                    DurationMin = 3,
+                    DurationMax = int.MaxValue,
+                    IsDaily = true,
+                    Price = 20
                 });
 
                 await context.SaveChangesAsync();
@@ -70,6 +109,7 @@ namespace Etica.UnitTests
 
                 //Assert
                 Assert.True(rate.Name == "Early Bird");
+                Assert.True(rate.Price == 13);
             }
 
             //Night Rate
@@ -85,6 +125,7 @@ namespace Etica.UnitTests
 
                 //Assert
                 Assert.True(rate.Name == "Night Rate");
+                Assert.True(rate.Price == 6.5);
             }
 
             //Weekend Rate
@@ -100,7 +141,39 @@ namespace Etica.UnitTests
 
                 //Assert
                 Assert.True(rate.Name == "Weekend Rate");
+                Assert.True(rate.Price == 10);
+            }
 
+            //Standard Rate - Hourly
+            using (var context = new CarParkContext())
+            {
+                var repository = new CarParkRepository(context);
+
+                var start = DateTime.ParseExact("20/08/2020 09:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var end = DateTime.ParseExact("20/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+
+                //Act
+                var rate = await repository.GetApplicableRate(start, end);
+
+                //Assert
+                Assert.True(rate.Name == "Standard Rate");
+                Assert.True(rate.Price == 15);
+            }
+
+            //Standard Rate - Daily
+            using (var context = new CarParkContext())
+            {
+                var repository = new CarParkRepository(context);
+
+                var start = DateTime.ParseExact("20/08/2020 09:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var end = DateTime.ParseExact("22/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+
+                //Act
+                var rate = await repository.GetApplicableRate(start, end);
+
+                //Assert
+                Assert.True(rate.Name == "Standard Rate");
+                Assert.True(rate.Price == 60);
             }
         }
 
