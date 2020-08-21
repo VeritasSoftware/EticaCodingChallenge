@@ -1,6 +1,6 @@
 # Etica Coding Challenge
 
-The Tech stack of the API:
+The Tech Stack of the API:
 
 *	Asp Net Core 3.1 Web Api
 *	Entity Framework Core 3.1.7
@@ -13,7 +13,7 @@ The Tech stack of the API:
 
 *	EF Core Code First.
 
-The Context and Respository are shown below:
+The Context and Repository are shown below:
 
 ![Repository](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Repository.jpeg)
 
