@@ -1,6 +1,5 @@
 ﻿using Etica.Repository.Entitites;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Etica.Repository
