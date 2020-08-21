@@ -1,6 +1,6 @@
 # Etica Coding Challenge
 
-The Tech stack of the API
+The Tech stack of the API:
 
 *	Asp Net Core 3.1 Web Api
 *	Entity Framework Core 3.1.7
@@ -17,7 +17,7 @@ The Context and Respository are shown below:
 
 ![Repository](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Repository.jpeg)
 
-The Contexts persists data in a **Sqlite** database.
+The Context persists data in a **Sqlite** database.
 
 ## The Business layer
 
@@ -27,3 +27,10 @@ The Contexts persists data in a **Sqlite** database.
 The Business layer is shown below:
 
 ![Business](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Business.jpeg)
+
+## The API
+
+*	Calls into the Business layer.
+*	Returns data to the client.
+
+![API](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Api.jpeg)
