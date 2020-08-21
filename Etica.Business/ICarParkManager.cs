@@ -6,6 +6,6 @@ namespace Etica.Business
 {
     public interface ICarParkManager
     {
-        Task<RateResponseModel> GetApplicableRate(DateTime start, DateTime end);
+        Task<RateResponseModel> GetApplicableRate(string start, string end);
     }
 }

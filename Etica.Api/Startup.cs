@@ -32,7 +32,7 @@ namespace Etica.Api
             {
                 var dateConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter
                 {
-                    DateTimeFormat = "dd'-'MM'-'yyyy'T'HH':'mm':'ss"
+                    DateTimeFormat = "dd'/'MM'/'yyyy'T'HH':'mm':'ss"
                 };
 
                 options.SerializerSettings.Converters.Add(dateConverter);

@@ -1,6 +1,7 @@
 ﻿using Etica.Models;
 using Etica.Repository;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Etica.Business
@@ -16,9 +17,12 @@ namespace Etica.Business
             _mapper = mapper;
         }
 
-        public async Task<RateResponseModel> GetApplicableRate(DateTime start, DateTime end)
-        {
-            var rate = await _repository.GetApplicableRate(start, end);
+        public async Task<RateResponseModel> GetApplicableRate(string start, string end)
+        {            
+            var dtStart = DateTime.ParseExact(start, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            var dtEnd = DateTime.ParseExact(end, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+
+            var rate = await _repository.GetApplicableRate(dtStart, dtEnd);
 
             if (rate == null)
                 return null;

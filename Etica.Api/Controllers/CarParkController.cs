@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Etica.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +24,9 @@ namespace Etica.Api.Controllers
         [HttpGet("{start}/{end}")]
         public async Task<IActionResult> CalculateRate(string start, string end)
         {
-            var dtStart = DateTime.Parse(start);
-            var dtEnd = DateTime.Parse(end);
-            return Ok(await _manager.GetApplicableRate(dtStart, dtEnd));
+            start = HttpUtility.UrlDecode(start);
+            end = HttpUtility.UrlDecode(end);
+            return Ok(await _manager.GetApplicableRate(start, end));
         }
     }
 }
