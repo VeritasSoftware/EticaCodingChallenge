@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etica.UnitTests", "Etica.Un
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E849C4B0-1A8B-4C06-9691-9513FB77D382}"
 	ProjectSection(SolutionItems) = preProject
+		Business.jpeg = Business.jpeg
 		README.md = README.md
 		Repository.jpeg = Repository.jpeg
 	EndProjectSection
