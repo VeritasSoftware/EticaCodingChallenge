@@ -9,7 +9,7 @@ The Tech stack of the API:
 *	xUnit
 *	Swashbuckle.AspNetCore 5.5.1
 
-## The Respository layer
+## The Repository layer
 
 *	EF Core Code First.
 
