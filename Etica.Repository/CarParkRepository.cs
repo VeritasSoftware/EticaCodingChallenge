@@ -32,24 +32,33 @@ namespace Etica.Repository
             _carParkContext = carParkContext;
         }
 
-        public async Task<BaseRateEntity> GetApplicableRate(DateTime start, DateTime end)
+        /// <summary>
+        /// Get applicable rate
+        /// </summary>
+        /// <param name="entry">The entry date-time</param>
+        /// <param name="exit">The exit date-time</param>
+        /// <returns><see cref="BaseRateEntity"/></returns>
+        public async Task<BaseRateEntity> GetApplicableRateAsync(DateTime entry, DateTime exit)
         {
-            var dailyRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => (weekDays.Contains(start.DayOfWeek) && r.RateDay == RateDay.Weekday && (TimeSpan.Compare(r.StartMin.TimeOfDay, start.TimeOfDay) <= 0 && TimeSpan.Compare(r.StartMax.TimeOfDay, start.TimeOfDay) >= 0) && (TimeSpan.Compare(r.EndMin.TimeOfDay, end.TimeOfDay) <= 0 && TimeSpan.Compare(r.EndMax.TimeOfDay, end.TimeOfDay) >= 0)));
+            //Check if weekdays flat rate applies
+            var dailyRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => (weekDays.Contains(entry.DayOfWeek) && r.RateDay == RateDay.Weekday && (TimeSpan.Compare(r.EntryMin.TimeOfDay, entry.TimeOfDay) <= 0 && TimeSpan.Compare(r.EntryMax.TimeOfDay, entry.TimeOfDay) >= 0) && (TimeSpan.Compare(r.ExitMin.TimeOfDay, exit.TimeOfDay) <= 0 && TimeSpan.Compare(r.ExitMax.TimeOfDay, exit.TimeOfDay) >= 0)));
 
             if (dailyRate != null)
                 return dailyRate;
             
-            var weekendRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => weekEnd.Contains(start.DayOfWeek) && r.RateDay == RateDay.Weekend && (TimeSpan.Compare(r.StartMin.TimeOfDay, start.TimeOfDay) < 0) && (TimeSpan.Compare(r.EndMax.TimeOfDay, end.TimeOfDay) < 0));
+            //Check if weekend flat rate applies
+            var weekendRate = await _carParkContext.Rates.SingleOrDefaultAsync(r => weekEnd.Contains(entry.DayOfWeek) && r.RateDay == RateDay.Weekend && (TimeSpan.Compare(r.EntryMin.TimeOfDay, entry.TimeOfDay) < 0) && (TimeSpan.Compare(r.ExitMax.TimeOfDay, exit.TimeOfDay) < 0));
 
             if (weekendRate == null)
             {
-                var duration = (end - start).TotalHours;
+                //Calculate hourly/daily standard rate
+                var duration = (exit - entry).TotalHours;
 
                 var rate = await _carParkContext.HourlyRates.SingleOrDefaultAsync(r => duration >= r.DurationMin && duration < r.DurationMax);
 
                 if (rate.IsDaily)
                 {
-                    var durationInDays = Math.Ceiling((end - start).TotalDays);
+                    var durationInDays = Math.Ceiling((exit - entry).TotalDays);
                     var amount = rate.Price * durationInDays;
                     rate.Price = amount;
 

@@ -5,6 +5,6 @@ namespace Etica.Business
 {
     public interface ICarParkManager
     {
-        Task<RateResponseModel> GetApplicableRate(string start, string end);
+        Task<RateResponseModel> GetApplicableRateAsync(string entry, string exit);
     }
 }

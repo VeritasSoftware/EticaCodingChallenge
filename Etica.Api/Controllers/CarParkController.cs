@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using Etica.Business;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Web;
-using Etica.Business;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Etica.Api.Controllers
 {
@@ -16,17 +11,27 @@ namespace Etica.Api.Controllers
     {
         private readonly ICarParkManager _manager;
 
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="manager"><see cref="ICarParkManager"/></param>
         public CarParkController(ICarParkManager manager)
         {
             _manager = manager;
         }
 
-        [HttpGet("{start}/{end}")]
-        public async Task<IActionResult> CalculateRate(string start, string end)
+        /// <summary>
+        /// Calculate Rate endpoint
+        /// </summary>
+        /// <param name="entry">The entry time</param>
+        /// <param name="exit">The exit time</param>
+        /// <returns></returns>
+        [HttpGet("{entry}/{exit}")]
+        public async Task<IActionResult> CalculateRateAsync(string entry, string exit)
         {
-            start = HttpUtility.UrlDecode(start);
-            end = HttpUtility.UrlDecode(end);
-            return Ok(await _manager.GetApplicableRate(start, end));
+            entry = HttpUtility.UrlDecode(entry);
+            exit = HttpUtility.UrlDecode(exit);
+            return Ok(await _manager.GetApplicableRateAsync(entry, exit));
         }
     }
 }

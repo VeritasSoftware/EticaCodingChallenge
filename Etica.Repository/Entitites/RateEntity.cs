@@ -25,10 +25,10 @@ namespace Etica.Repository.Entitites
     public class RateEntity : BaseRateEntity
     {        
         public RateDay RateDay { get; set; }
-        public DateTime StartMin { get; set; }
-        public DateTime StartMax { get; set; }
-        public DateTime EndMin { get; set; }
-        public DateTime EndMax { get; set; }        
+        public DateTime EntryMin { get; set; }
+        public DateTime EntryMax { get; set; }
+        public DateTime ExitMin { get; set; }
+        public DateTime ExitMax { get; set; }        
     }
 
     public class HourlyRateEntity : BaseRateEntity

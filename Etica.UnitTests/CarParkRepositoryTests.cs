@@ -28,10 +28,10 @@ namespace Etica.UnitTests
                     Name = "Early Bird",
                     Type = RateType.Flat,
                     RateDay = RateDay.Weekday,
-                    StartMin = DateTime.ParseExact("06:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    StartMax = DateTime.ParseExact("09:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    EndMin = DateTime.ParseExact("03:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    EndMax = DateTime.ParseExact("11:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    EntryMin = DateTime.ParseExact("06:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    EntryMax = DateTime.ParseExact("09:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    ExitMin = DateTime.ParseExact("03:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    ExitMax = DateTime.ParseExact("11:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     Price = 13
                 });
 
@@ -40,10 +40,10 @@ namespace Etica.UnitTests
                     Name = "Night Rate",
                     Type = RateType.Flat,
                     RateDay = RateDay.Weekday,
-                    StartMin = DateTime.ParseExact("06:00:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    StartMax = DateTime.ParseExact("11:59:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    EndMin = DateTime.ParseExact("03:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
-                    EndMax = DateTime.ParseExact("11:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
+                    EntryMin = DateTime.ParseExact("06:00:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    EntryMax = DateTime.ParseExact("11:59:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    ExitMin = DateTime.ParseExact("03:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
+                    ExitMax = DateTime.ParseExact("11:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
                     Price = 6.5
                 });
 
@@ -52,8 +52,8 @@ namespace Etica.UnitTests
                     Name = "Weekend Rate",
                     Type = RateType.Flat,
                     RateDay = RateDay.Weekend,
-                    StartMin = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    EndMax = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    EntryMin = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
+                    ExitMax = DateTime.ParseExact("12:00:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     Price = 10
                 });
 
@@ -105,7 +105,7 @@ namespace Etica.UnitTests
                 var end = DateTime.ParseExact("20/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
-                var rate = await repository.GetApplicableRate(start, end);
+                var rate = await repository.GetApplicableRateAsync(start, end);
 
                 //Assert
                 Assert.True(rate.Name == "Early Bird");
@@ -121,7 +121,7 @@ namespace Etica.UnitTests
                 var end = DateTime.ParseExact("21/08/2020 04:30:00 AM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
-                var rate = await repository.GetApplicableRate(start, end);
+                var rate = await repository.GetApplicableRateAsync(start, end);
 
                 //Assert
                 Assert.True(rate.Name == "Night Rate");
@@ -137,7 +137,7 @@ namespace Etica.UnitTests
                 var end = DateTime.ParseExact("23/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
-                var rate = await repository.GetApplicableRate(start, end);
+                var rate = await repository.GetApplicableRateAsync(start, end);
 
                 //Assert
                 Assert.True(rate.Name == "Weekend Rate");
@@ -153,7 +153,7 @@ namespace Etica.UnitTests
                 var end = DateTime.ParseExact("20/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
-                var rate = await repository.GetApplicableRate(start, end);
+                var rate = await repository.GetApplicableRateAsync(start, end);
 
                 //Assert
                 Assert.True(rate.Name == "Standard Rate");
@@ -169,7 +169,7 @@ namespace Etica.UnitTests
                 var end = DateTime.ParseExact("22/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
-                var rate = await repository.GetApplicableRate(start, end);
+                var rate = await repository.GetApplicableRateAsync(start, end);
 
                 //Assert
                 Assert.True(rate.Name == "Standard Rate");

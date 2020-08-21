@@ -17,16 +17,30 @@ namespace Etica.Business
             _mapper = mapper;
         }
 
-        public async Task<RateResponseModel> GetApplicableRate(string start, string end)
-        {            
-            var dtStart = DateTime.ParseExact(start, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-            var dtEnd = DateTime.ParseExact(end, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+        /// <summary>
+        /// Get applicable rate
+        /// </summary>
+        /// <param name="entry">The entry date-time</param>
+        /// <param name="exit">The exit date-time</param>
+        /// <returns><see cref="RateResponseModel"/></returns>
+        public async Task<RateResponseModel> GetApplicableRateAsync(string entry, string exit)
+        {       
+            //Parse dates
+            var dtEntry = DateTime.ParseExact(entry, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            var dtExit = DateTime.ParseExact(exit, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
-            var rate = await _repository.GetApplicableRate(dtStart, dtEnd);
+            //if Exit date-time before Entry, throw Exception
+            if (dtExit < dtEntry)
+            {
+                throw new InvalidProgramException("Exit date-time should be on or after Entry");
+            }
+
+            var rate = await _repository.GetApplicableRateAsync(dtEntry, dtExit);
 
             if (rate == null)
                 return null;
 
+            //Map data entity to response entity
             var rateResponse = _mapper.MapRate(rate);
 
             return rateResponse;
