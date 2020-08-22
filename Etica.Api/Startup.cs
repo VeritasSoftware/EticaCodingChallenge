@@ -1,13 +1,14 @@
 using Etica.Business;
 using Etica.Repository;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Etica.Api
 {
@@ -60,6 +61,19 @@ namespace Etica.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                //Exception handler for Prod
+                app.UseExceptionHandler(a => a.Run(async context =>
+                {
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    var exception = exceptionHandlerPathFeature.Error;
+
+                    var result = JsonConvert.SerializeObject(new { error = exception.Message });
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(result);
+                }));
+            }            
 
             app.UseHttpsRedirection();
 
