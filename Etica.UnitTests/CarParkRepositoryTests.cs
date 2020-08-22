@@ -42,8 +42,8 @@ namespace Etica.UnitTests
                     RateDay = RateDay.Weekday,
                     EntryMin = DateTime.ParseExact("06:00:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
                     EntryMax = DateTime.ParseExact("11:59:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture),
-                    ExitMin = DateTime.ParseExact("03:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
-                    ExitMax = DateTime.ParseExact("11:30:00 AM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
+                    ExitMin = DateTime.ParseExact("03:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
+                    ExitMax = DateTime.ParseExact("11:30:00 PM", "h:mm:ss tt", CultureInfo.InvariantCulture).AddDays(1),
                     Price = 6.5
                 });
 
@@ -118,7 +118,7 @@ namespace Etica.UnitTests
                 var repository = new CarParkRepository(context);
 
                 var start = DateTime.ParseExact("20/08/2020 07:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var end = DateTime.ParseExact("21/08/2020 04:30:00 AM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var end = DateTime.ParseExact("21/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(start, end);
@@ -142,6 +142,22 @@ namespace Etica.UnitTests
                 //Assert
                 Assert.True(rate.Name == "Weekend Rate");
                 Assert.True(rate.Price == 10);
+            }
+
+            //Night Rate instead of Weekend rate
+            using (var context = new CarParkContext())
+            {
+                var repository = new CarParkRepository(context);
+
+                var start = DateTime.ParseExact("21/08/2020 11:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var end = DateTime.ParseExact("22/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+
+                //Act
+                var rate = await repository.GetApplicableRateAsync(start, end);
+
+                //Assert
+                Assert.True(rate.Name == "Night Rate");
+                Assert.True(rate.Price == 6.5);
             }
 
             //Standard Rate - Hourly

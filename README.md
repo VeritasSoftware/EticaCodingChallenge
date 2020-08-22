@@ -1,6 +1,6 @@
 # Etica Coding Challenge
 
-The Tech Stack of the API:
+## The Tech Stack of the API
 
 *	Asp Net Core 3.1 Web Api
 *	Entity Framework Core 3.1.7
