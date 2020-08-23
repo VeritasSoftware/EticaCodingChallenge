@@ -1,6 +1,5 @@
 using Etica.Repository;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,8 +25,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("20/08/2020 08:00:00 AM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("20/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("20/08/2020 08:00:00 AM");
+                var exit = DateTime.Parse("20/08/2020 04:30:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);
@@ -46,8 +45,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("20/08/2020 07:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("21/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("20/08/2020 07:30:00 PM");
+                var exit = DateTime.Parse("21/08/2020 04:30:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);
@@ -62,8 +61,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("21/08/2020 11:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("22/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("21/08/2020 11:30:00 PM");
+                var exit = DateTime.Parse("22/08/2020 04:30:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);
@@ -82,8 +81,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("22/08/2020 07:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("23/08/2020 04:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("22/08/2020 07:30:00 PM");
+                var exit = DateTime.Parse("23/08/2020 04:30:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);
@@ -102,8 +101,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("20/08/2020 09:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("20/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("20/08/2020 09:30:00 PM");
+                var exit = DateTime.Parse("20/08/2020 11:35:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);
@@ -122,8 +121,8 @@ namespace Etica.UnitTests
             {
                 var repository = new CarParkRepository(context);
 
-                var entry = DateTime.ParseExact("20/08/2020 09:30:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-                var exit = DateTime.ParseExact("22/08/2020 11:35:00 PM", "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                var entry = DateTime.Parse("20/08/2020 09:30:00 PM");
+                var exit = DateTime.Parse("22/08/2020 11:35:00 PM");
 
                 //Act
                 var rate = await repository.GetApplicableRateAsync(entry, exit);

@@ -25,8 +25,9 @@ There are **Unit Tests** for the Repository.
 
 ## The Business layer
 
-*	Transforms the data entity to response model using Automapper.
+*	Validates the input.
 *	Calls into the Repository layer.
+*	Maps the data entity to response model using Automapper.
 
 The Business layer is shown below:
 
@@ -36,5 +37,8 @@ The Business layer is shown below:
 
 *	Calls into the Business layer.
 *	Returns data to the client.
+
+You can set the **Culture** of the Web Api from the appsettings.json.
+The input DateTime will be parsed as per this Culture.
 
 ![API](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Api.jpeg)

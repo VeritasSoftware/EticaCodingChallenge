@@ -1,7 +1,6 @@
 ﻿using Etica.Models;
 using Etica.Repository;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Etica.Business
@@ -24,10 +23,10 @@ namespace Etica.Business
         /// <param name="exit">The exit date-time</param>
         /// <returns><see cref="RateResponseModel"/></returns>
         public async Task<RateResponseModel> GetApplicableRateAsync(string entry, string exit)
-        {       
+        {
             //Parse dates
-            var dtEntry = DateTime.ParseExact(entry, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-            var dtExit = DateTime.ParseExact(exit, "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            var dtEntry = DateTime.Parse(entry);
+            var dtExit = DateTime.Parse(exit);
 
             //if Exit date-time before Entry, throw Exception
             if (dtExit < dtEntry)

@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace Etica.Api
 {
@@ -29,17 +28,7 @@ namespace Etica.Api
             services.AddScoped<CarParkContext>();
             services.AddScoped<ICarParkRepository, CarParkRepository>();
 
-            services.AddControllers().AddNewtonsoftJson(options =>
-            {
-                var dateConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter
-                {
-                    DateTimeFormat = "dd'/'MM'/'yyyy'T'HH':'mm':'ss"
-                };
-
-                options.SerializerSettings.Converters.Add(dateConverter);
-                options.SerializerSettings.Culture = new CultureInfo("en-AU");
-                options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
-            });
+            services.AddControllers();
 
             services.AddSwaggerGen();
         }
@@ -47,6 +36,9 @@ namespace Etica.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Use culture specified in appsettings
+            app.UseCulture(this.Configuration);
+
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
