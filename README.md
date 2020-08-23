@@ -39,6 +39,7 @@ The Business layer is shown below:
 *	Returns data to the client.
 
 You can set the **Culture** of the Web Api from the appsettings.json.
+
 The input DateTime will be parsed as per this Culture.
 
 ![API](https://github.com/VeritasSoftware/EticaCodingChallenge/blob/master/Api.jpeg)
